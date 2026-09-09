@@ -1,0 +1,8 @@
+node_modules/
+dist/
+.astro/
+.wrangler/
+work/
+public/media/
+public/social-preview.png
+package-lock.json

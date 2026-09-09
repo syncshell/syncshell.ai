@@ -1,0 +1,10 @@
+---
+import DefaultMarkdownContent from "@astrojs/starlight/components/MarkdownContent.astro"
+import InterfaceDetails from "../InterfaceDetails.astro"
+const data = Astro.locals.starlightRoute.entry.data
+---
+
+<DefaultMarkdownContent>
+  {data.order !== undefined && <InterfaceDetails {...data} />}
+  <slot />
+</DefaultMarkdownContent>

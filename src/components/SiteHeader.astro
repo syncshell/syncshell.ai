@@ -1,0 +1,13 @@
+---
+import { Icon } from "@astrojs/starlight/components"
+import Brand from "./Brand.astro"
+import { SITE } from "../config/site.mjs"
+---
+
+<header class="site-header">
+  <div class="brand-cluster"><Brand /><span class="brand-subtitle">Interfaces for Syncthing</span></div>
+  <nav class="header-meta" aria-label="Primary navigation">
+    <a href="/docs/"><Icon name="open-book" size="0.95rem" /><span>Docs</span></a>
+    <a href={SITE.source}><Icon name="github" size="0.95rem" /><span>GitHub</span></a>
+  </nav>
+</header>

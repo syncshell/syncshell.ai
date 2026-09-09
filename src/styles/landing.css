@@ -1,0 +1,165 @@
+.site-shell {
+  min-height: 100vh;
+}
+.landing-main {
+  min-width: 0;
+}
+.home-page {
+  width: 100%;
+  padding: 1rem;
+}
+.hero {
+  border: 1px solid var(--border);
+}
+.hero-content {
+  padding: 2.5rem 3rem;
+}
+.landing-heading {
+  max-width: 48rem;
+  margin: 0;
+  color: var(--foreground);
+  font-size: clamp(1.8rem, 3.3vw, 3rem);
+  font-weight: 500;
+  letter-spacing: -0.035em;
+  line-height: 1.15;
+}
+.hero-description {
+  margin: 1.1rem 0 1.5rem;
+  max-width: 43rem;
+  font-size: 1rem;
+  line-height: 1.7;
+}
+.hero-link {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--brand-accent);
+  text-underline-offset: 4px;
+}
+.hero-link:hover {
+  text-decoration: underline;
+}
+.section-block {
+  margin-top: 1rem;
+  padding: 2.5rem 3rem;
+  border: 1px solid var(--border);
+}
+.section-heading {
+  margin-bottom: 2rem;
+}
+.landing-demo-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+.section-note {
+  font: 0.75rem var(--font-mono);
+  color: var(--text-weak);
+}
+.interface-grid {
+  display: grid;
+  border-top: 1px solid var(--border);
+  border-left: 1px solid var(--border);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.interface-card {
+  display: flex;
+  min-width: 0;
+  min-height: 10rem;
+  flex-direction: column;
+  padding: 1.5rem;
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+.interface-card:hover {
+  background: var(--surface);
+}
+.interface-card-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.interface-card h3 {
+  margin: 0 0 0.65rem;
+  color: var(--foreground);
+  font-size: 1.125rem;
+  font-weight: 500;
+}
+.interface-card p {
+  margin: 0;
+  max-width: 30rem;
+  color: var(--text);
+}
+.card-status {
+  margin-top: auto;
+  padding-top: 1.25rem;
+  color: var(--brand-accent);
+}
+.card-direction {
+  color: var(--text-weak);
+}
+.is-planned h3,
+.status-planned {
+  color: var(--text-weak);
+}
+.site-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1.5rem;
+  padding: 1.3rem 2rem 2rem;
+  color: var(--text-weak);
+  font-size: 0.75rem;
+}
+.site-footer > a {
+  margin-left: auto;
+}
+.site-footer a:hover {
+  text-decoration: underline;
+}
+.skip-link {
+  position: fixed;
+  z-index: 100;
+  top: 0.5rem;
+  left: 0.5rem;
+  padding: 0.75rem;
+  background: var(--foreground);
+  color: var(--background);
+  transform: translateY(-150%);
+}
+.skip-link:focus {
+  transform: translateY(0);
+}
+@media (max-width: 48rem) {
+  .landing-demo-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .hero-content,
+  .section-block {
+    padding: 2rem;
+  }
+  .desktop-break {
+    display: none;
+  }
+}
+@media (max-width: 34rem) {
+  .home-page {
+    padding: 0.5rem;
+  }
+  .hero-content,
+  .section-block {
+    padding: 1.5rem;
+  }
+  .interface-grid {
+    grid-template-columns: 1fr;
+  }
+  .site-footer {
+    padding: 1rem 1.5rem 2rem;
+  }
+  .site-footer > a {
+    margin-left: 0;
+  }
+}

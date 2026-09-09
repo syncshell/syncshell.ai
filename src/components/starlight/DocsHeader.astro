@@ -1,0 +1,15 @@
+---
+import { Icon } from "@astrojs/starlight/components"
+import Search from "@astrojs/starlight/components/Search.astro"
+import Brand from "../Brand.astro"
+import { SITE } from "../../config/site.mjs"
+---
+
+<div class="docs-header">
+  <Brand />
+  <div class="docs-search"><Search /></div>
+  <nav class="header-meta" aria-label="Primary navigation">
+    <a href="/"><Icon name="left-arrow" size="0.95rem" /><span>Home</span></a>
+    <a href={SITE.source}><Icon name="github" size="0.95rem" /><span>GitHub</span></a>
+  </nav>
+</div>

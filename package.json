@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json.schemastore.org/package.json",
+  "name": "syncshell-site",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "npm@11.19.0",
+  "engines": {
+    "node": ">=22.13.0"
+  },
+  "scripts": {
+    "dev": "astro dev --host 127.0.0.1 --port 4321",
+    "build": "astro build",
+    "preview": "astro preview --host 127.0.0.1 --port 4321",
+    "check": "astro check",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "site:check": "node scripts/check-site.mjs",
+    "verify": "npm run format:check && npm run check && npm run build && npm run site:check",
+    "deploy": "wrangler deploy",
+    "brand:build": "node scripts/build-social.mjs"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "3.7.4",
+    "@astrojs/starlight": "0.42.0",
+    "@fontsource/ibm-plex-mono": "5.2.5",
+    "astro": "7.2.10"
+  },
+  "devDependencies": {
+    "@astrojs/check": "0.9.10",
+    "prettier": "3.9.6",
+    "prettier-plugin-astro": "0.14.1",
+    "sharp": "0.35.4",
+    "typescript": "5.9.3",
+    "wrangler": "4.130.0"
+  },
+  "prettier": {
+    "semi": false,
+    "printWidth": 120,
+    "plugins": [
+      "prettier-plugin-astro"
+    ],
+    "overrides": [
+      {
+        "files": [
+          "*.md",
+          "*.qmd"
+        ],
+        "options": {
+          "printWidth": 80,
+          "proseWrap": "always"
+        }
+      }
+    ]
+  },
+  "overrides": {
+    "sharp": "$sharp"
+  }
+}

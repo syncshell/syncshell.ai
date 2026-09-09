@@ -1,0 +1,113 @@
+---
+import { getCollection } from "astro:content"
+import SiteHeader from "../components/SiteHeader.astro"
+import SiteFooter from "../components/SiteFooter.astro"
+import BaseLayout from "../layouts/BaseLayout.astro"
+const docs = await getCollection("docs")
+const interfaces = docs.filter((page) => page.data.order !== undefined).sort((a, b) => a.data.order! - b.data.order!)
+const plugin = interfaces.find((page) => page.id === "docs/plugin")!
+const web = interfaces.find((page) => page.id === "docs/web")!
+const video = plugin.data.videos![0]
+const screenshot = web.data.screenshots![0]
+---
+
+<BaseLayout>
+  <div class="site-shell landing-shell">
+    <SiteHeader />
+    <main id="main" class="landing-main">
+      <div class="home-page">
+        <section class="hero" aria-labelledby="hero-title">
+          <div class="hero-content">
+            <p class="eyebrow">One engine. Different interfaces.</p>
+            <h1 class="landing-heading" id="hero-title">Syncthing, where you work.</h1>
+            <p class="hero-description">
+              Syncshell brings Syncthing controls to your desktop shell and browser.<br class="desktop-break" /> Terminal
+              and desktop applications are planned.
+            </p>
+            <a class="hero-link" href="/docs/">Explore the project <span aria-hidden="true">&#8599;</span></a>
+          </div>
+        </section>
+        <section class="section-block landing-demo-section" aria-labelledby="demo-title">
+          <div class="section-heading landing-demo-heading">
+            <h2 id="demo-title">See Syncshell</h2>
+            <span class="section-note">A quick look at the shell and browser</span>
+          </div>
+          <div class="showcase-grid">
+            <figure class="demo-figure">
+              <video
+                controls
+                muted
+                playsinline
+                preload="none"
+                poster={video.poster}
+                width={video.width}
+                height={video.height}
+                aria-label={video.title}
+              >
+                <source src={video.src} type="video/mp4" />
+                <a href={video.src}>Open the file activity video</a>
+              </video>
+              <figcaption>
+                <a class="demo-caption-title" href="/docs/plugin/"
+                  >Omarchy plugin <span aria-hidden="true">&#8599;</span></a
+                ><span class="demo-caption-description">File activity from the bar. Recorded with v0.1.7.</span>
+              </figcaption>
+            </figure>
+            <figure class="demo-figure">
+              <a class="demo-image-frame" href={screenshot.src} aria-label={`Enlarge: ${screenshot.alt}`}
+                ><img
+                  src={screenshot.src}
+                  alt={screenshot.alt}
+                  width={screenshot.width}
+                  height={screenshot.height}
+                  loading="lazy"
+                  decoding="async"
+                /></a
+              >
+              <figcaption>
+                <a class="demo-caption-title" href="/docs/web/">Web UI <span aria-hidden="true">&#8599;</span></a><span
+                  class="demo-caption-description">Folders, devices, and activity. v0.1.8 development preview.</span
+                >
+              </figcaption>
+            </figure>
+          </div>
+        </section>
+        <section class="section-block" aria-labelledby="interfaces-title">
+          <div class="section-heading">
+            <p class="eyebrow">Choose your interface</p><h2 id="interfaces-title">
+              The same Syncthing, in a different place.
+            </h2>
+          </div>
+          <div class="interface-grid">
+            {
+              interfaces.map((page) => (
+                <a
+                  class:list={["interface-card", { "is-planned": page.data.availability === "Planned" }]}
+                  href={`/${page.id}/`}
+                >
+                  <div class="interface-card-heading">
+                    <>
+                      <h3>{page.data.title}</h3>
+                      <span class="card-direction" aria-hidden="true">
+                        &#8599;
+                      </span>
+                    </>
+                  </div>
+                  <p>{page.data.summary}</p>
+                  <span class:list={["card-status", { "status-planned": page.data.availability === "Planned" }]}>
+                    {page.data.availability === "Included"
+                      ? "Included with the plugin"
+                      : page.data.availability === "Available"
+                        ? "Available for Omarchy"
+                        : "Planned"}
+                  </span>
+                </a>
+              ))
+            }
+          </div>
+        </section>
+      </div>
+    </main>
+    <SiteFooter />
+  </div>
+</BaseLayout>

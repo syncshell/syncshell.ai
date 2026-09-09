@@ -1,0 +1,18 @@
+---
+import DefaultHead from "@astrojs/starlight/components/Head.astro"
+import { SITE } from "../../config/site.mjs"
+const data = Astro.locals.starlightRoute.entry.data
+const imageUrl = new URL(SITE.socialImage, SITE.origin).href
+const isNotFound = Astro.url.pathname.includes("404")
+---
+
+<DefaultHead />
+<meta name="robots" content={isNotFound ? "noindex,follow" : "index,follow,max-image-preview:large"} />
+<meta property="og:image" content={imageUrl} />
+<meta property="og:image:alt" content="Syncshell. Syncthing, where you work." />
+<meta property="og:image:width" content={String(SITE.socialImageWidth)} />
+<meta property="og:image:height" content={String(SITE.socialImageHeight)} />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={`${data.title} | Syncshell`} />
+<meta name="twitter:description" content={data.description ?? SITE.description} />
+<meta name="twitter:image" content={imageUrl} />

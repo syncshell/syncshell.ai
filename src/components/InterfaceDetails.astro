@@ -1,0 +1,35 @@
+---
+import type { CollectionEntry } from "astro:content"
+import VideoGrid from "./VideoGrid.astro"
+type Props = CollectionEntry<"docs">["data"]
+const { availability, statusNote, sourceUrl, releaseUrl, screenshots = [], videos = [] } = Astro.props
+---
+
+<div class="interface-meta">
+  <span class:list={["status-badge", { "status-planned": availability === "Planned" }]}>{availability}</span>
+  {sourceUrl && <a href={sourceUrl}>Source on GitHub</a>}
+  {releaseUrl && <a href={releaseUrl}>Tagged releases</a>}
+</div>
+{statusNote && <p class="status-note">{statusNote}</p>}
+{
+  screenshots.length > 0 && (
+    <div class="demo-screenshot-grid">
+      {screenshots.map((shot) => (
+        <figure class="demo-figure">
+          <a class="demo-image-frame" href={shot.src} aria-label={`Enlarge: ${shot.alt}`}>
+            <img
+              src={shot.src}
+              alt={shot.alt}
+              width={shot.width}
+              height={shot.height}
+              loading="lazy"
+              decoding="async"
+            />
+          </a>
+          <figcaption>{shot.caption}</figcaption>
+        </figure>
+      ))}
+    </div>
+  )
+}
+{videos.length > 0 && <VideoGrid videos={videos} preload="none" />}

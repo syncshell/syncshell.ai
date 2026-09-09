@@ -1,0 +1,22 @@
+---
+import type { Video } from "../../content.config"
+interface Props {
+  video: Video
+  label?: string
+}
+const { video, label } = Astro.props
+---
+
+<video
+  controls
+  muted
+  playsinline
+  poster={video.poster}
+  preload="none"
+  width={video.width}
+  height={video.height}
+  aria-label={label}
+>
+  <source src={video.src} type="video/mp4" />
+  <a href={video.src}><slot>Open the {video.title} video</slot></a>
+</video>

@@ -26,7 +26,7 @@ jobs:
           if-no-files-found: error
   deploy:
     needs: check
-    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request' && vars.CLOUDFLARE_ACCOUNT_ID != ''
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     environment:
       name: production
@@ -55,4 +55,6 @@ jobs:
             echo "Skipping superseded revision"
             exit 0
           fi
+          : "${CLOUDFLARE_API_TOKEN:?Missing deployment token}"
+          : "${CLOUDFLARE_ACCOUNT_ID:?Missing deployment account}"
           npm run deploy

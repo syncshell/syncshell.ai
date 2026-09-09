@@ -18,20 +18,25 @@ const video = z.object({
   width: z.number().int().positive(),
   height: z.number().int().positive(),
 })
+const interfaceFields = z.object({
+  order: z.number().int(),
+  summary: z.string(),
+  availability: z.enum(["Available", "Included", "Planned"]),
+  statusNote: z.string().optional(),
+  sourceUrl: z.url().optional(),
+  releaseUrl: z.url().optional(),
+  screenshots: z.array(screenshot).optional(),
+  videos: z.array(video).optional(),
+})
+const pageFields = interfaceFields.partial().extend({ order: z.undefined().optional() })
+
+export type Screenshot = z.infer<typeof screenshot>
+export type Video = z.infer<typeof video>
+export type InterfaceData = z.infer<typeof interfaceFields>
+
 export const collections = {
   docs: defineCollection({
     loader: docsLoader(),
-    schema: docsSchema({
-      extend: z.object({
-        order: z.number().int().optional(),
-        summary: z.string().optional(),
-        availability: z.enum(["Available", "Included", "Planned"]).optional(),
-        statusNote: z.string().optional(),
-        sourceUrl: z.url().optional(),
-        releaseUrl: z.url().optional(),
-        screenshots: z.array(screenshot).optional(),
-        videos: z.array(video).optional(),
-      }),
-    }),
+    schema: docsSchema({ extend: z.union([interfaceFields, pageFields]) }),
   }),
 }

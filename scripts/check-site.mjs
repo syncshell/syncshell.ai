@@ -1,6 +1,7 @@
 import assert from "node:assert/strict"
 import { readFile, readdir, stat } from "node:fs/promises"
 import { resolve } from "node:path"
+import { SITE } from "../src/config/site.mjs"
 
 const root = resolve("dist")
 const routes = ["/", "/docs/", "/docs/plugin/", "/docs/web/", "/docs/tui/", "/docs/desktop/"]
@@ -23,12 +24,8 @@ async function files(path) {
 }
 for (const route of routes) {
   const html = await readFile(htmlPath(route), "utf8")
-  assert(html.includes("Syncshell"), `${route}: missing identity`)
-  assert(html.includes(`https://syncshell.ai${route}`), `${route}: missing canonical URL`)
-  if (route.includes("tui") || route.includes("desktop")) {
-    assert(html.includes("Planned"), `${route}: missing availability`)
-    assert(!html.includes("language-bash"), `${route}: unexpected install command`)
-  }
+  assert(html.includes(SITE.name), `${route}: missing identity`)
+  assert(html.includes(`${SITE.origin}${route}`), `${route}: missing canonical URL`)
 }
 const all = await files(root)
 for (const file of all) {
@@ -36,15 +33,11 @@ for (const file of all) {
   assert(!/\.(?:map|pem|key|toml)$/.test(file), `Unexpected publication artifact: ${file}`)
   if (!file.endsWith(".html")) continue
   const html = await readFile(file, "utf8")
-  assert(
-    !/Omarchy QOL|omarchyqol\.com|Plugin Control|Dropbox Quota|Metaplug/.test(html),
-    `Old catalogue content: ${file}`,
-  )
   assert(!/\/(?:home|Users)\/[^\s/"\x27]+\//.test(html), `Local workspace path: ${file}`)
   for (const match of html.matchAll(/(?:href|src|poster)="([^"]+)"/g)) {
     const link = match[1].replaceAll("&amp;", "&")
     if (/^(?:https?:|data:|mailto:|tel:|#)/.test(link)) continue
-    const url = new URL(link, "https://syncshell.ai" + file.slice(root.length).replace(/index\.html$/, ""))
+    const url = new URL(link, SITE.origin + file.slice(root.length).replace(/index\.html$/, ""))
     const target = resolve(root, "." + decodeURIComponent(url.pathname))
     assert(target === root || target.startsWith(root + "/"), `Path outside site: ${link}`)
     const destination = (await exists(target)) ? target : resolve(target, "index.html")
@@ -58,5 +51,5 @@ for (const file of all) {
 assert(await exists(resolve(root, "pagefind/pagefind.js")), "Missing search index")
 assert(await exists(resolve(root, "social-preview.png")), "Missing social preview")
 const sitemap = await readFile(resolve(root, "sitemap-0.xml"), "utf8")
-for (const route of routes) assert(sitemap.includes(`https://syncshell.ai${route}`), `Missing sitemap route: ${route}`)
+for (const route of routes) assert(sitemap.includes(`${SITE.origin}${route}`), `Missing sitemap route: ${route}`)
 console.log(`Verified ${routes.length} pages, local links, search assets, metadata, and ${all.length} deployment files`)

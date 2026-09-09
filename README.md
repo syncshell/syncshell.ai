@@ -1,47 +1,43 @@
-# Syncshell website
+# Syncshell
 
-The project website and documentation at [syncshell.ai](https://syncshell.ai).
-Built with Astro and Starlight. The operational Syncthing Web UI is maintained
-[in the plugin repository](https://github.com/omarchy-QOL/syncshell/tree/main/webui).
+Focused interfaces for Syncthing, starting with your desktop shell and browser.
+
+**[Visit syncshell.ai](https://syncshell.ai)** ·
+[Documentation](https://syncshell.ai/docs/) ·
+[Application source](https://github.com/omarchy-QOL/syncshell)
+
+- [Omarchy plugin](https://syncshell.ai/docs/plugin/): activity and quick
+  controls in the bar. Available.
+- [Web UI](https://syncshell.ai/docs/web/): folder and device management.
+  Included with the plugin.
+- [Terminal](https://syncshell.ai/docs/tui/): keyboard workflows and SSH.
+  Planned.
+- [Desktop](https://syncshell.ai/docs/desktop/): a dedicated desktop
+  application. Planned.
+
+Syncthing remains responsible for synchronizing your files. See the
+[interface guides](https://syncshell.ai/docs/) for installation, current
+availability, and limitations.
+
+This repository contains the **website and documentation**. Report application
+bugs in the
+[Syncshell application repository](https://github.com/omarchy-QOL/syncshell/issues).
+Website corrections and contributions are welcome here.
+
+## Working on the website
+
+The site uses Astro and Starlight. Documentation is Markdown in
+`src/content/docs/docs/`; the landing page is `src/pages/index.astro`. Reusable
+components live in `src/components/`, and the shared theme lives in
+`src/styles/`.
 
 ```bash
 npm ci
 npm run dev
 ```
 
-Preview at `http://localhost:4321`. Build static files with `npm run build`. Run
-`npm run verify` before publication.
+Open `http://localhost:4321`. Run `npm run verify` before submitting changes.
+Updates to `main` are checked and automatically deployed.
 
-## Content
-
-The landing page lives in `src/pages/index.astro`. Documentation lives in
-`src/content/docs/docs/`. Interface frontmatter supplies card order, status,
-source links, and media. Keep release claims and links current when a product
-ships. Planned interfaces intentionally have no install commands.
-
-Use versioned filenames in `public/media/`. The landing page selects its media
-from the plugin and Web entries. Keep video downloads user-initiated and provide
-descriptive captions. Screenshots and silent recordings retain their original
-version labels.
-
-## Deployment
-
-`npm run deploy` uploads `dist/` as Cloudflare Workers static assets and binds
-`syncshell.ai`. The site requires no server-rendered application or database.
-Authenticate Wrangler locally, or supply `CLOUDFLARE_API_TOKEN` and
-`CLOUDFLARE_ACCOUNT_ID` through the deployment environment.
-
-GitHub Actions verifies pull requests. Pushes to `main` deploy the exact
-verified build when the deployment secrets are configured. No credentials belong
-in source or static output.
-
-## Provenance
-
-The presentation is adapted from the owner's Omarchy QOL website at revision
-`854964d7a77f12568ed1dbaae92446059943e62e`. Syncshell supplies its own identity
-and content. The connected-panel mark is original to this website.
-
-Product media comes from the public Syncshell plugin repository and website.
-Syncthing-derived product icons shown in media retain their attribution to the
-Syncthing contributors. See `public/media/ATTRIBUTION.md` and upstream license
-notices. Dependency licenses remain with their respective packages.
+Presentation adapted from Omarchy QOL. See the
+[product media attribution](public/media/ATTRIBUTION.md) for source credits.

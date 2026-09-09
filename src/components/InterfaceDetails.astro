@@ -1,7 +1,8 @@
 ---
-import type { CollectionEntry } from "astro:content"
-import VideoGrid from "./VideoGrid.astro"
-type Props = CollectionEntry<"docs">["data"]
+import type { InterfaceData } from "../content.config"
+import Screenshot from "./media/Screenshot.astro"
+import Video from "./media/Video.astro"
+type Props = InterfaceData
 const { availability, statusNote, sourceUrl, releaseUrl, screenshots = [], videos = [] } = Astro.props
 ---
 
@@ -16,20 +17,25 @@ const { availability, statusNote, sourceUrl, releaseUrl, screenshots = [], video
     <div class="demo-screenshot-grid">
       {screenshots.map((shot) => (
         <figure class="demo-figure">
-          <a class="demo-image-frame" href={shot.src} aria-label={`Enlarge: ${shot.alt}`}>
-            <img
-              src={shot.src}
-              alt={shot.alt}
-              width={shot.width}
-              height={shot.height}
-              loading="lazy"
-              decoding="async"
-            />
-          </a>
+          <Screenshot image={shot} />
           <figcaption>{shot.caption}</figcaption>
         </figure>
       ))}
     </div>
   )
 }
-{videos.length > 0 && <VideoGrid videos={videos} preload="none" />}
+{
+  videos.length > 0 && (
+    <div class="demo-video-grid">
+      {videos.map((video) => (
+        <figure class="demo-figure">
+          <Video video={video} />
+          <figcaption>
+            <span class="demo-caption-title">{video.title}</span>
+            <span class="demo-caption-description">{video.description}</span>
+          </figcaption>
+        </figure>
+      ))}
+    </div>
+  )
+}

@@ -1,14 +1,24 @@
 ---
-import { getCollection } from "astro:content"
+import { getCollection, type CollectionEntry } from "astro:content"
+import type { InterfaceData } from "../content.config"
+import Screenshot from "../components/media/Screenshot.astro"
+import Video from "../components/media/Video.astro"
 import SiteHeader from "../components/SiteHeader.astro"
 import SiteFooter from "../components/SiteFooter.astro"
 import BaseLayout from "../layouts/BaseLayout.astro"
+type InterfacePage = CollectionEntry<"docs"> & { data: InterfaceData }
 const docs = await getCollection("docs")
-const interfaces = docs.filter((page) => page.data.order !== undefined).sort((a, b) => a.data.order! - b.data.order!)
-const plugin = interfaces.find((page) => page.id === "docs/plugin")!
-const web = interfaces.find((page) => page.id === "docs/web")!
-const video = plugin.data.videos![0]
-const screenshot = web.data.screenshots![0]
+const interfaces = docs
+  .filter((page): page is InterfacePage => page.data.order !== undefined)
+  .sort((a, b) => a.data.order - b.data.order)
+const video = interfaces.find((page) => page.id === "docs/plugin")?.data.videos?.[0]
+const screenshot = interfaces.find((page) => page.id === "docs/web")?.data.screenshots?.[0]
+if (!video || !screenshot) throw new Error("The homepage requires a plugin video and a Web UI screenshot")
+const availability = {
+  Available: "Available for Omarchy",
+  Included: "Included with the plugin",
+  Planned: "Planned",
+}
 ---
 
 <BaseLayout>
@@ -27,26 +37,14 @@ const screenshot = web.data.screenshots![0]
             <a class="hero-link" href="/docs/">Explore the project <span aria-hidden="true">&#8599;</span></a>
           </div>
         </section>
-        <section class="section-block landing-demo-section" aria-labelledby="demo-title">
+        <section class="section-block" aria-labelledby="demo-title">
           <div class="section-heading landing-demo-heading">
             <h2 id="demo-title">See Syncshell</h2>
             <span class="section-note">A quick look at the shell and browser</span>
           </div>
           <div class="showcase-grid">
             <figure class="demo-figure">
-              <video
-                controls
-                muted
-                playsinline
-                preload="none"
-                poster={video.poster}
-                width={video.width}
-                height={video.height}
-                aria-label={video.title}
-              >
-                <source src={video.src} type="video/mp4" />
-                <a href={video.src}>Open the file activity video</a>
-              </video>
+              <Video video={video} label={video.title}>Open the file activity video</Video>
               <figcaption>
                 <a class="demo-caption-title" href="/docs/plugin/"
                   >Omarchy plugin <span aria-hidden="true">&#8599;</span></a
@@ -54,16 +52,7 @@ const screenshot = web.data.screenshots![0]
               </figcaption>
             </figure>
             <figure class="demo-figure">
-              <a class="demo-image-frame" href={screenshot.src} aria-label={`Enlarge: ${screenshot.alt}`}
-                ><img
-                  src={screenshot.src}
-                  alt={screenshot.alt}
-                  width={screenshot.width}
-                  height={screenshot.height}
-                  loading="lazy"
-                  decoding="async"
-                /></a
-              >
+              <Screenshot image={screenshot} />
               <figcaption>
                 <a class="demo-caption-title" href="/docs/web/">Web UI <span aria-hidden="true">&#8599;</span></a><span
                   class="demo-caption-description">Folders, devices, and activity. v0.1.8 development preview.</span
@@ -86,20 +75,14 @@ const screenshot = web.data.screenshots![0]
                   href={`/${page.id}/`}
                 >
                   <div class="interface-card-heading">
-                    <>
-                      <h3>{page.data.title}</h3>
-                      <span class="card-direction" aria-hidden="true">
-                        &#8599;
-                      </span>
-                    </>
+                    <h3>{page.data.title}</h3>
+                    <span class="card-direction" aria-hidden="true">
+                      &#8599;
+                    </span>
                   </div>
                   <p>{page.data.summary}</p>
                   <span class:list={["card-status", { "status-planned": page.data.availability === "Planned" }]}>
-                    {page.data.availability === "Included"
-                      ? "Included with the plugin"
-                      : page.data.availability === "Available"
-                        ? "Available for Omarchy"
-                        : "Planned"}
+                    {availability[page.data.availability]}
                   </span>
                 </a>
               ))

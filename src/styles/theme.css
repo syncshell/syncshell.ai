@@ -2,11 +2,9 @@
   color-scheme: dark;
   --background: hsl(0, 9%, 7%);
   --surface: hsl(0, 6%, 10%);
-  --surface-hover: hsl(0, 5%, 14%);
   --foreground: hsl(0, 15%, 94%);
   --text: hsl(0, 4%, 71%);
   --text-weak: hsl(0, 2%, 49%);
-  --text-weaker: hsl(0, 3%, 28%);
   --border: hsl(0, 4%, 23%);
   --interactive: hsl(62, 100%, 90%);
   --brand-accent: #9ece6a;
@@ -60,8 +58,7 @@ button:focus-visible {
   outline-offset: 3px;
 }
 
-.eyebrow,
-.docs-label {
+.eyebrow {
   margin: 0 0 0.5rem;
   color: var(--text-weak);
   font-family: var(--font-mono);
@@ -71,9 +68,7 @@ button:focus-visible {
   text-transform: uppercase;
 }
 
-.section-heading h2,
-.docs-section h2,
-.source-panel h2 {
+.section-heading h2 {
   margin: 0;
   color: var(--foreground);
   font-size: 1.375rem;
@@ -82,7 +77,6 @@ button:focus-visible {
 }
 
 .card-status,
-.docs-kicker,
 .interface-meta {
   color: var(--text-weak);
   font-family: var(--font-mono);

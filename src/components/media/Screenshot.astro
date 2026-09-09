@@ -1,0 +1,11 @@
+---
+import type { Screenshot } from "../../content.config"
+interface Props {
+  image: Screenshot
+}
+const { image } = Astro.props
+---
+
+<a class="demo-image-frame" href={image.src} aria-label={`Enlarge: ${image.alt}`}>
+  <img src={image.src} alt={image.alt} width={image.width} height={image.height} loading="lazy" decoding="async" />
+</a>

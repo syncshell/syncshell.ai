@@ -2,17 +2,9 @@
 import "../styles/custom.css"
 import { SITE } from "../config/site.mjs"
 
-interface Props {
-  title?: string
-  description?: string
-  image?: string
-}
-
-const { title = SITE.name, description = SITE.description, image = SITE.socialImage } = Astro.props
-
-const base = Astro.site ?? new URL(SITE.origin)
-const canonicalUrl = new URL(Astro.url.pathname, base).href
-const imageUrl = new URL(image, base).href
+const { name: title, description, socialImage: image } = SITE
+const canonicalUrl = new URL(Astro.url.pathname, SITE.origin).href
+const imageUrl = new URL(image, SITE.origin).href
 const websiteJsonLd = JSON.stringify({
   "@context": "https://schema.org",
   "@type": "WebSite",

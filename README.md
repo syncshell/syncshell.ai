@@ -39,5 +39,16 @@ npm run dev
 Open `http://localhost:4321`. Run `npm run verify` before submitting changes.
 Updates to `main` are checked and automatically deployed.
 
+## Branding
+
+The site vendors the generated web and social exports from the local Syncshell
+brand release `v0.1.0`. Its canonical sources live in `../assets/`; the website
+keeps copies so independent clones and CI builds do not depend on a sibling
+checkout.
+
+The mixed-case `Syncshell` header remains live HTML text. `Sync` uses the main
+foreground, while `shell` and the second file use the exact brand green
+`#9ece6a` on every background.
+
 Presentation adapted from Omarchy QOL. See the
 [product media attribution](public/media/ATTRIBUTION.md) for source credits.

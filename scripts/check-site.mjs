@@ -26,6 +26,8 @@ for (const route of routes) {
   const html = await readFile(htmlPath(route), "utf8")
   assert(html.includes(SITE.name), `${route}: missing identity`)
   assert(html.includes(`${SITE.origin}${route}`), `${route}: missing canonical URL`)
+  assert(html.includes("/site.webmanifest"), `${route}: missing web manifest`)
+  assert(html.includes("/apple-touch-icon.png"), `${route}: missing Apple touch icon`)
 }
 const all = await files(root)
 for (const file of all) {
@@ -49,7 +51,23 @@ for (const file of all) {
   }
 }
 assert(await exists(resolve(root, "pagefind/pagefind.js")), "Missing search index")
-assert(await exists(resolve(root, "social-preview.png")), "Missing social preview")
+for (const asset of [
+  "apple-touch-icon.png",
+  "browserconfig.xml",
+  "favicon.ico",
+  "favicon.svg",
+  "icon-192.png",
+  "icon-512.png",
+  "icon-maskable-512.png",
+  "icon-monochrome.svg",
+  "mstile-150x150.png",
+  "safari-pinned-tab.svg",
+  "site.webmanifest",
+  "social-preview.png",
+  "social-preview.svg",
+]) {
+  assert(await exists(resolve(root, asset)), `Missing brand asset: ${asset}`)
+}
 const sitemap = await readFile(resolve(root, "sitemap-0.xml"), "utf8")
 for (const route of routes) assert(sitemap.includes(`${SITE.origin}${route}`), `Missing sitemap route: ${route}`)
 console.log(`Verified ${routes.length} pages, local links, search assets, metadata, and ${all.length} deployment files`)

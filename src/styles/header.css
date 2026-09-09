@@ -29,8 +29,20 @@
   width: 2rem;
   height: 2rem;
   flex: none;
-  color: var(--brand-accent);
 }
+
+.brand-symbol-primary {
+  stroke: var(--foreground);
+}
+
+.brand-symbol-accent {
+  stroke: var(--brand-accent);
+}
+
+.brand-symbol-arrow {
+  fill: var(--brand-accent);
+}
+
 .brand-wordmark {
   color: var(--foreground);
   font: 600 1.5rem/1 var(--font-mono);
